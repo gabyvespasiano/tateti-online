@@ -9,9 +9,12 @@
   --ti_s:#a74536;
 }
 * {
-  box-sizing: border-box
-  
+  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
 } 
+
 body {
     margin: 0;
     padding: 0;
@@ -262,6 +265,22 @@ input[type=number] {
   @media (max-width: 767px) {
     .contenedor .tateti{
       font-size: 24vw;
+    }
+    .menu{
+      max-width: 100vw;
+    }
+    .menu .partida{
+      max-width: 45vw;
+    }
+    .menu .partida input{
+      max-width: 45vw;
+    }
+    .menu .boton .carga{
+      max-width: 50vw;
+    }
+    .menu .boton .genera{
+      max-width: 100vw;
+    }
     }
 
 
