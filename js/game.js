@@ -1,133 +1,129 @@
 import {iswinner,ismyturn,turn,write,read,generate,buttons,link, paint, pide,menu} from './functions.js';
 
+// Se asigna el valor 1 para "X" y el valor 2 para "O"
 //1 == X
 //2 == O
-export let ganador=0;
-export let turno = 1;
-export let jugador =0;
-export let idpartida=0;
+
+// Variables globales para mantener el estado del juego
+export let ganador=0; // Ganador actual
+export let turno = 1; // Jugador actual
+export let jugador =0; // Jugador que seleccionó "X" o "O"
+export let idpartida=0; // ID de la partida actual
 export let tablero =   [0, 0, 0,
                         0, 0, 0,
-                        0, 0, 0];
-export let juegoterminado = 0;
+                        0, 0, 0]; // Estado actual del tablero
+export let juegoterminado = 0; // Indica si el juego ha terminado
 
+// Referencias a los elementos HTML para actualizar la información en la página
 export let Partida = document.getElementById("partida");
 Partida.innerHTML = "Partida ID: ";
 export let turno_div = document.getElementById("turno");
 turno_div.innerHTML = "Turno del jugador: X";
+
+// Muestra el menú principal
 menu(true);
+
+// Evento para cargar una partida dada su ID
 document.getElementById("cargaid").addEventListener("click", function(e) {
     if (document.getElementById("partidai").value != ""){
+        // Si se ingresó una ID, se oculta el menú y se carga la partida
         menu(false);
         idpartida = document.getElementById("partidai").value;
         link();
         read();
         cargarTablero();
     }else{
+        // Si no se ingresó una ID, se muestra un mensaje de error
         alert("Ingrese una ID")
     }
     
 });
+
+// Evento para generar una nueva partida
 document.getElementById("generaid").addEventListener("click", function(e) {
-
-        menu(false);
-        idpartida = generate(4);
-        link();
-        read();
-        cargarTablero();
-
-    
+    // Se oculta el menú y se genera una nueva partida
+    menu(false);
+    idpartida = generate(4);
+    link();
+    read();
+    cargarTablero();
 });
+
+// Evento para seleccionar "X"
 document.getElementById("X").addEventListener("click", function(e) {    
     jugador=1;
     buttons(true);
     read();
-    
-    //recibio=true;
-    //cargarTablero();
 });
 
+// Evento para seleccionar "O"
 document.getElementById("O").addEventListener("click", function(e) {    
     jugador=2;
     buttons(true);
     read();
-    //recibio=true;
-    //cargarTablero();
 });
-
-
-
+// Evento para realizar un movimiento en el tablero
 document.getElementById("tablero").addEventListener("click", function(e) {
+    // Verifica que el jugador haya seleccionado si ser X o O
     if (jugador == 0){
-        alert("selecciona si quieres ser X o O")
-    }else if (juegoterminado == 1){
-    }else if (ismyturn()){
-            let pinto = paint(e.target);
-            if (pinto){
-                ganador  = iswinner();
-                // switch (ganador){
-                //     case 1://wins X
-                //         alert("Gana el Jugador X");
-                //         juegoterminado = 1;
-                //     break;
-                //     case 2://wins O
-                //         alert("Gana el Jugador O");
-                //         juegoterminado = 1;
-                //     break;
-                //     case 3://draw
-                //         alert("EMPATE");
-                //         juegoterminado = 1;
-                //     break;
-                // }
-                // if (iswinner() == 0 && iswinner() == 1 && iswinner() == 2 && iswinner() == 3){
-                //     alert("asd")
-                // }
-                turno = turn(turno);
-                write();            
-                switch (turno){
-                    case 1:
-                        turno_div.innerHTML = "Turno del jugador: X";  
-                        break;
-                    case 2:
-                        turno_div.innerHTML = "Turno del jugador: O";  
-                        break
-                }
-                // recibio=true;
-            }
+        alert("selecciona si quieres ser X o O");
     }
-    
+    // Verifica que el juego no haya terminado
+    else if (juegoterminado == 1){
+    }
+    // Verifica que sea el turno del jugador
+    else if (ismyturn()){
+        // Pinta la celda seleccionada
+        let pinto = paint(e.target);
+        // Si la celda se pudo pintar
+        if (pinto){
+            // Verifica si hay un ganador
+            ganador  = iswinner();
+            // Cambia el turno
+            turno = turn(turno);
+            // Escribe el tablero
+            write();            
+            // Cambia el texto que muestra de quien es el turno
+            switch (turno){
+                case 1:
+                    turno_div.innerHTML = "Turno del jugador: X";  
+                    break;
+                case 2:
+                    turno_div.innerHTML = "Turno del jugador: O";  
+                    break;
+            }
+        }
+    }
 });
 
-
-    //read();
-
-//tablero = [0,1,0,2,0,0,1,0,2];
+// Función que carga el tablero
 function cargarTablero() {
+    // Recorre las celdas del tablero
     for (var i = 0; i < tablero.length; i++) {
         var celda = document.getElementById(i + 1);
-        //console.log(tablero[i]);
+        // Si la celda contiene un 1, se muestra una X
         if (tablero[i] == 1) {
             celda.innerHTML = "<span class='material-symbols-outlined equis' style='font-size: 80px;'>close</span>";
+        // Si la celda contiene un 2, se muestra un O
         } else if (tablero[i] == 2){
             celda.innerHTML = "<span class='material-symbols-outlined circulo' style='font-size: 80px;'>radio_button_unchecked</span>";
         }            
     }
+    // Cambia el texto que muestra de quien es el turno
     if (turno == 1){
         turno_div.innerHTML = "Turno del jugador X";
     }else if (turno==2){
         turno_div.innerHTML = "Turno del jugador O";
     }
-    
 }
-//cargarTablero();
-let recibio = false;
-//this function check if data is correct exist and if exist load 
+// Función que verifica si hay datos nuevos para cargar
 function recibe(){
-    let data = pide()
+    let data = pide();
+    // Si hay datos nuevos
     if (data != undefined){
         recibio = true;
         let jsonData = JSON.parse(data);
-        //idpartida,tablero,turno,ganador = JSON.parse(jsonData);
+        // Carga los datos
         ganador = parseInt(jsonData.ganador);
         turno = parseInt(jsonData.turno);
         tablero = jsonData.tablero.split(",");
