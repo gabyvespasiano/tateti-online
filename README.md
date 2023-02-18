@@ -28,3 +28,6 @@ No es necesario realizar una instalación, simplemente abre el enlace en tu nave
 - Una vez que dos jugadores se han unido, el juego comienza.
 - Cada jugador tendrá su turno para marcar una casilla en el tablero.
 - El primer jugador en tener una fila, columna o diagonal de 3 marcas gana el juego.
+
+## Contribuir
+Este proyecto está bajo la licencia MIT y está abierto a colaboradores.
